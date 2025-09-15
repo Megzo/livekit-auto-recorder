@@ -1,0 +1,64 @@
+# LiveKit Auto-Recorder Configuration
+# This file shows all available configuration options.
+# You can use environment variables in this file using ${VARIABLE_NAME} syntax.
+
+# LiveKit server configuration
+livekit_host: "${LIVEKIT_HOST}"  # e.g., "http://livekit-server.svc.cluster.local:7880"
+livekit_api_key: "${LIVEKIT_API_KEY}"
+livekit_api_secret: "${LIVEKIT_API_SECRET}"
+
+# Webhook configuration
+webhook_api_key: "${WEBHOOK_API_KEY}"
+
+# Server configuration
+listen_port: "8080"
+
+# Recording configuration
+layout: "grid"  # Options: grid, speaker, single-speaker
+file_type: "MP4"   # Options: MP4, WEBM, OGG
+file_path: "recordings/{room_name}-{time}"  # Supports template variables
+
+# Storage configuration - choose ONE of the following storage providers
+storage:
+  # Amazon S3 Configuration
+  s3:
+    access_key: "${AWS_ACCESS_KEY_ID}"  # Can be empty if using IAM Role
+    secret: "${AWS_SECRET_ACCESS_KEY}"  # Can be empty if using IAM Role
+    session_token: "${AWS_SESSION_TOKEN}"  # Optional, for temporary credentials
+    region: "${AWS_DEFAULT_REGION}"  # e.g., "us-east-1"
+    endpoint: ""  # Optional, for S3-compatible services like MinIO
+    bucket: "${S3_BUCKET}"
+    # Optional proxy configuration
+    proxy_config:
+      url: ""  # e.g., "http://proxy.example.com:8080"
+      username: ""
+      password: ""
+    # Optional retry configuration
+    max_retries: 3
+    max_retry_delay: "5s"
+    min_retry_delay: "500ms"
+    aws_log_level: "LogOff"  # Options: LogOff, LogDebug, LogDebugWithRequestRetries
+
+  # # Microsoft Azure Blob Storage Configuration
+  # azure:
+  #   account_name: "${AZURE_STORAGE_ACCOUNT}"
+  #   account_key: "${AZURE_STORAGE_KEY}"
+  #   container_name: "recordings"
+
+  # # Google Cloud Storage Configuration
+  # gcp:
+  #   credentials_json: "${GOOGLE_APPLICATION_CREDENTIALS}"  # Path to JSON file or JSON content
+  #   bucket: "my-recordings-bucket"
+  #   # Optional proxy configuration
+  #   proxy_config:
+  #     url: ""
+  #     username: ""
+  #     password: ""
+
+  # # Alibaba Cloud OSS Configuration
+  # alioss:
+  #   access_key: "${ALIOSS_ACCESS_KEY}"
+  #   secret: "${ALIOSS_SECRET}"
+  #   region: "oss-cn-beijing"
+  #   endpoint: ""  # Optional, custom endpoint
+  #   bucket: "my-recordings-bucket"
